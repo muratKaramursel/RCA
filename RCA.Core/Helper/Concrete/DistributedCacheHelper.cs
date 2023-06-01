@@ -34,7 +34,7 @@ namespace RCA.Core
         }
         public T GetFromCache<T>(string key)
         {
-            byte[] valueByteArray = _distributedCache.GetAsync(key).Result;
+            byte[] valueByteArray = _distributedCache.Get(key);
 
             string valueJsonString = (valueByteArray is not null) ? Encoding.UTF8.GetString(valueByteArray) : string.Empty;
 

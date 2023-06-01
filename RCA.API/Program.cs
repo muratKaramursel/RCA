@@ -21,6 +21,7 @@ builder.Services.AddStackExchangeRedisCache(options =>
     //options.InstanceName = "SampleInstance";
 });
 builder.Services.AddSingleton(typeof(ICacheHelper), typeof(DistributedCacheHelper));
+//builder.Services.AddSingleton(typeof(ICacheHelper), typeof(RedisCacheHelper));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

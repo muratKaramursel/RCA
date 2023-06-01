@@ -11,7 +11,7 @@ namespace RCA.Core
         {
             ConfigurationHelper.ParseConfigrationValue("ConnectionStrings:Redis", out string redisConnectionString);
 
-            using ConnectionMultiplexer _connectionMultiplexer = ConnectionMultiplexer.Connect(redisConnectionString);
+            ConnectionMultiplexer _connectionMultiplexer = ConnectionMultiplexer.Connect(redisConnectionString);
 
             _redisDatabase = _connectionMultiplexer.GetDatabase();
         }

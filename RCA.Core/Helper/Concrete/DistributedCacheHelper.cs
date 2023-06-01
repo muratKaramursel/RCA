@@ -38,7 +38,7 @@ namespace RCA.Core
 
             string valueJsonString = (valueByteArray is not null) ? Encoding.UTF8.GetString(valueByteArray) : string.Empty;
 
-            T value = !string.IsNullOrWhiteSpace(valueJsonString) ? JsonSerializer.Deserialize<T>(valueJsonString) : default(T);
+            T value = !string.IsNullOrWhiteSpace(valueJsonString) ? JsonSerializer.Deserialize<T>(valueJsonString) : default;
 
             return value;
         }

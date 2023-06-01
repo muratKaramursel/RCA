@@ -11,9 +11,9 @@ namespace RCA.Core
         {
             ConfigurationHelper.ParseConfigrationValue("ConnectionStrings:Redis", out string redisConnectionString);
 
-            ConnectionMultiplexer _connectionMultiplexer = ConnectionMultiplexer.Connect(redisConnectionString);
+            ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(redisConnectionString);
 
-            _redisDatabase = _connectionMultiplexer.GetDatabase();
+            _redisDatabase = connectionMultiplexer.GetDatabase();
         }
 
         public void AddToCache(string key, object value, TimeSpan? expireTimeSpan)
@@ -22,12 +22,10 @@ namespace RCA.Core
 
             _redisDatabase.StringSet(key, valueJsonString, expireTimeSpan);
         }
-
         public void RemoveFromCache(string key)
         {
             _redisDatabase.KeyDelete(key);
         }
-
         public T GetFromCache<T>(string key)
         {
             string valueJsonString = _redisDatabase.StringGet(key);

@@ -32,5 +32,11 @@ namespace RCA.Business
 
             return countriesFromCache;
         }
+        internal static void RemoveCountriesFromCache(ICacheHelper cacheHelper)
+        {
+            string cacheKey = $"{_countriesKey}_{cacheHelper.GetType()}";
+
+            cacheHelper.RemoveFromCache(cacheKey);
+        }
     }
 }

@@ -28,5 +28,9 @@ namespace RCA.Business
 
             return _mapper.Map<List<CountryDto>>(countriesFromCache);
         }
+        public void ClearCache()
+        {
+            CountryCacheBusiness.RemoveCountriesFromCache(_cacheHelper);
+        }
     }
 }

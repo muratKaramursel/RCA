@@ -22,5 +22,13 @@ namespace RCA.API.Controllers
 
             return await Task.FromResult(Ok(countryDtos));
         }
+
+        [HttpGet("clearcache")]
+        public async Task<IActionResult> ClearCache()
+        {
+            _countryBusiness.ClearCache();
+
+            return await Task.FromResult(Ok());
+        }
     }
 }

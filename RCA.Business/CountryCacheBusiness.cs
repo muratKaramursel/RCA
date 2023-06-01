@@ -11,19 +11,21 @@ namespace RCA.Business
 
         internal static List<Country> GetCountries(ICacheHelper cacheHelper, GetCountriesDelegate getCountriesDelegate /*, Func<List<Country>> func*/)
         {
-            List<Country> countriesFromCache = cacheHelper.GetFromCache<List<Country>>(_countriesKey);
+            string cacheKey = $"{_countriesKey}_{cacheHelper.GetType()}";
+
+            List<Country> countriesFromCache = cacheHelper.GetFromCache<List<Country>>(cacheKey);
 
             if (countriesFromCache is null)
             {
                 lock (_countriesLock)
                 {
-                    countriesFromCache = cacheHelper.GetFromCache<List<Country>>(_countriesKey);
+                    countriesFromCache = cacheHelper.GetFromCache<List<Country>>(cacheKey);
 
                     if (countriesFromCache is null)
                     {
                         countriesFromCache = getCountriesDelegate(); //func();
 
-                        cacheHelper.AddToCache(_countriesKey, countriesFromCache, TimeSpan.FromHours(1));
+                        cacheHelper.AddToCache(cacheKey, countriesFromCache, TimeSpan.FromHours(1));
                     }
                 }
             }

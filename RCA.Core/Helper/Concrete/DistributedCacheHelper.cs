@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using System.Text;
 using System.Text.Json;
 
 namespace RCA.Core
@@ -16,9 +17,11 @@ namespace RCA.Core
         {
             string valueJsonString = JsonSerializer.Serialize(value);
 
-            _distributedCache.SetString(
+            byte[] valueByteArray = Encoding.UTF8.GetBytes(valueJsonString);
+
+            _distributedCache.Set(
                 key,
-                valueJsonString,
+                valueByteArray,
                 new DistributedCacheEntryOptions()
                 {
                     SlidingExpiration = expireTimeSpan
@@ -31,7 +34,9 @@ namespace RCA.Core
         }
         public T GetFromCache<T>(string key)
         {
-            string valueJsonString = _distributedCache.GetString(key);
+            byte[] valueByteArray = _distributedCache.GetAsync(key).Result;
+
+            string valueJsonString = (valueByteArray is not null) ? Encoding.UTF8.GetString(valueByteArray) : string.Empty;
 
             T value = !string.IsNullOrWhiteSpace(valueJsonString) ? JsonSerializer.Deserialize<T>(valueJsonString) : default;
 
